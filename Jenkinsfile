@@ -79,7 +79,7 @@ pipeline {
         //The steps section defines a series of one or more steps to be executed in a given stage directive.
             steps {
                 // Get some code from a GitHub repository
-                /* git ([
+                 git ([
                         branch: 'main',
                         changelog: true,
                         credentialsId: 'itkhanz',
