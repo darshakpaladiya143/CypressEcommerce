@@ -82,10 +82,10 @@ pipeline {
                  git ([
                         branch: 'main',
                         changelog: true,
-                        credentialsId: 'itkhanz',
+                        credentialsId: '',
                         poll: false,
-                        url: 'https://github.com/itkhanz/Cypress-Framework'
-                ]) */
+                        url: 'https://github.com/darshakpaladiya143/CypressEcommerce.git'
+                ]) 
 
                 echo 'Code is checked out'
             }
