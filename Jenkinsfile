@@ -101,7 +101,7 @@ pipeline {
        //This deletes any older xml results files present in the directory
        stage('Stage 3 - Clearing old reports') {
            steps {
-               bat "npm run report:pre"
+               bat "if exist cypress\\results\\junit\\* del /Q cypress\\results\\junit\\*"
            }
        }
        
@@ -115,7 +115,7 @@ pipeline {
             steps {
                 //bat "SET NO_COLOR=$NO_COLOR"    //You may want to do this if ASCII characters or colors are not properly formatted in your CI.
                 script {
-                    if (params.TEST_SPEC == "cypress/e2e/tests/*.cy.js") {
+                   if (params.TEST_SPEC == "cypress/e2e/tests/*.cy.js") {
                         echo "Running all test scripts with Browser: ${params.BROWSER}, TAG: ${params.TAG}, Environment: ${params.TEST_ENVIRONMENT}"
                         bat "npx cypress run --${params.BROWSER_MODE} --browser ${params.BROWSER} --env environmentName=${params.TEST_ENVIRONMENT},grepTags=${params.TAG} ${params.RECORD_TESTS}"
                     } else {
@@ -136,37 +136,31 @@ pipeline {
 
    }
    
-   post {
+    post {
         always {
-            //Publish the HTML report using the HTML Publisher plugin
             echo 'Publishing the Extent Report'
             publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: true,
-                    reportDir: 'cypress/results/cypress-mochawesome-reporter',
-                    reportFiles: 'index.html',
-                    reportName: 'Cypress Mochawesome Report',
-                    reportTitles: 'Cypress Test Automation Framework',
-                    useWrapperFileDirectly: true
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: 'cypress/results/cypress-mochawesome-reporter',
+                reportFiles: 'index.html',
+                reportName: 'Cypress Mochawesome Report',
+                reportTitles: 'Cypress Ecommerce Automation Framework',
+                useWrapperFileDirectly: true
             ])
             
-            //To avoid duplicate results, we comment this, and use it within script only
-            //junit 'cypress/results/junit/combined-report.xml'
-
             script {
-                // Get the JUnit test results
                 echo 'Publishing JUnit XML Results'
                 def testResults = junit testResults: 'cypress/results/junit/combined-report.xml'
                 
-                //Mapping build status to slack notification colors
                 def COLOR_MAP = [
-                    'SUCCESS'   : '#4CAF50',   //Green
-                    'FAILURE'   : '#F44336',   //Red
-                    'UNSTABLE'  : '#FFC107',   //Yellow
-                    'ABORTED'   : '#9E9E9E',   //Grey
-                    'NOT_BUILT' : '#2196F3',   //Blue
-                    'UNKNOWN'   : '#CCCCCC'    //Light Gray
+                    'SUCCESS'   : '#4CAF50',
+                    'FAILURE'   : '#F44336',
+                    'UNSTABLE'  : '#FFC107',
+                    'ABORTED'   : '#9E9E9E',
+                    'NOT_BUILT' : '#2196F3',
+                    'UNKNOWN'   : '#CCCCCC'
                 ]
                 
                 echo 'Sending Slack Notification'
