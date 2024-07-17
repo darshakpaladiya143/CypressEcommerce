@@ -38,7 +38,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
 
   //Cypress uses your projectId and Record Key together to uniquely identify projects.
-  //projectId: '',
+  projectId: 'm1krqj',
 
   trashAssetsBeforeRuns : true,   //Whether Cypress will trash assets within the downloadsFolder, screenshotsFolder, and videosFolder before tests run with cypress run.
   

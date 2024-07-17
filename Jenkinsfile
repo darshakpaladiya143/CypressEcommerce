@@ -108,8 +108,8 @@ pipeline {
        stage('Stage 4 - Running cypress e2e Tests') {
             //For recording tests on Cypress Cloud Dashboard, you need to set these environment variables
             environment {
-                CYPRESS_RECORD_KEY = credentials('cypress-framework-record-key')
-                CYPRESS_PROJECT_ID = credentials('cypress-framework-project-id')
+                CYPRESS_RECORD_KEY = credentials('a350ab13-75c8-4a93-b119-9e031e823598')
+                CYPRESS_PROJECT_ID = credentials('m1krqj')
             }
 
             steps {
