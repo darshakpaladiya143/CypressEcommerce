@@ -67,9 +67,9 @@ module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
     "reportDir": "cypress/results/cypress-mochawesome-reporter",
-    // "overwrite": false,
-    // "html": true,
-    // "json": true
+    "overwrite": false,
+    "html": true,
+    "json": true
   },
 
   //The number of times to retry a failing test. Can be configured to apply to cypress run or cypress open separately.
