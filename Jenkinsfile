@@ -101,7 +101,7 @@ pipeline {
        //This deletes any older xml results files present in the directory
        stage('Stage 3 - Clearing old reports') {
            steps {
-              bat 'dir cypress\\results\\cypress-mochawesome-reporter'
+             bat 'if exist cypress\\results\\* del /Q cypress\\results\\*'
            }
        }
        
