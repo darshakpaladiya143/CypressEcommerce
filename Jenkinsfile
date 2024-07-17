@@ -136,50 +136,97 @@ pipeline {
 
    }
    
-    post {
-        always {
-            echo 'Publishing the Extent Report'
-            publishHTML([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'cypress/results/cypress-mochawesome-reporter',
-                reportFiles: 'mochawesome.html',
-                reportName: 'Cypress Mochawesome Report',
-            ])
-              junit 'cypress/results/**/*.xml'
+    // post {
+    //     always {
+    //         echo 'Publishing the Extent Report'
+    //         publishHTML([
+    //             allowMissing: false,
+    //             alwaysLinkToLastBuild: true,
+    //             keepAll: true, 
+    //             reportDir: 'cypress/results/cypress-mochawesome-reporter',
+    //             reportFiles: 'mochawesome.html',
+    //             reportName: 'Cypress Mochawesome Report',
+    //         ])
+    //           junit 'cypress/results/**/*.xml'
             
-            script {
-                echo 'Publishing JUnit XML Results'
-                def testResults = junit testResults: 'cypress/results/junit/combined-report.xml'
+    //         script {
+    //             echo 'Publishing JUnit XML Results'
+    //             def testResults = junit testResults: 'cypress/results/junit/combined-report.xml'
                 
-                def COLOR_MAP = [
-                    'SUCCESS'   : '#4CAF50',
-                    'FAILURE'   : '#F44336',
-                    'UNSTABLE'  : '#FFC107',
-                    'ABORTED'   : '#9E9E9E',
-                    'NOT_BUILT' : '#2196F3',
-                    'UNKNOWN'   : '#CCCCCC'
-                ]
+    //             def COLOR_MAP = [
+    //                 'SUCCESS'   : '#4CAF50',
+    //                 'FAILURE'   : '#F44336',
+    //                 'UNSTABLE'  : '#FFC107',
+    //                 'ABORTED'   : '#9E9E9E',
+    //                 'NOT_BUILT' : '#2196F3',
+    //                 'UNKNOWN'   : '#CCCCCC'
+    //             ]
                 
-                echo 'Sending Slack Notification'
-                slackSend channel: '#cypress-framework-jenkins',
-                          color: COLOR_MAP[currentBuild.currentResult],
-                          message: "*${currentBuild.currentResult}*\n *Job*: ${env.JOB_NAME} , *Build*: ${env.BUILD_NUMBER}\n *Test Results*: \n\t Total: ${testResults.totalCount} Passed: ${testResults.passCount} Failed: ${testResults.failCount} Skipped: ${testResults.skipCount}\n *Test Run Configuration*:\n\t *Test Script(s)*: ${params.TEST_SPEC}\n\t *Browser*: ${params.BROWSER}  ${params.BROWSER_MODE}\n\t *Tags*: ${params.TAG}\n\t *Environment*: ${params.TEST_ENVIRONMENT}\n\t *Dashboard Recording*: ${params.RECORD_TESTS}\n *Test Report*: ${env.BUILD_URL}Cypress_20Mochawesome_20Report/ \n *More info*: ${env.BUILD_URL}"
+    //             echo 'Sending Slack Notification'
+    //             slackSend channel: '#cypress-framework-jenkins',
+    //                       color: COLOR_MAP[currentBuild.currentResult],
+    //                       message: "*${currentBuild.currentResult}*\n *Job*: ${env.JOB_NAME} , *Build*: ${env.BUILD_NUMBER}\n *Test Results*: \n\t Total: ${testResults.totalCount} Passed: ${testResults.passCount} Failed: ${testResults.failCount} Skipped: ${testResults.skipCount}\n *Test Run Configuration*:\n\t *Test Script(s)*: ${params.TEST_SPEC}\n\t *Browser*: ${params.BROWSER}  ${params.BROWSER_MODE}\n\t *Tags*: ${params.TAG}\n\t *Environment*: ${params.TEST_ENVIRONMENT}\n\t *Dashboard Recording*: ${params.RECORD_TESTS}\n *Test Report*: ${env.BUILD_URL}Cypress_20Mochawesome_20Report/ \n *More info*: ${env.BUILD_URL}"
      
-            }
-        }
+    //         }
+    //     }
         
-        success {
-            echo 'Build Successful'
-        }
+    //     success {
+    //         echo 'Build Successful'
+    //     }
 
-        failure {
-            echo 'Build Failed'
-        }
+    //     failure {
+    //         echo 'Build Failed'
+    //     }
 
-        unstable {
-            echo 'Build unstable'
+    //     unstable {
+    //         echo 'Build unstable'
+    //     }
+    // }
+    post {
+    always {
+        echo 'Publishing the Extent Report'
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'cypress/results/cypress-mochawesome-reporter',
+            reportFiles: 'mochawesome.html',
+            reportName: 'Cypress Mochawesome Report',
+        ])
+        
+        script {
+            // Publish JUnit test results
+            echo 'Publishing JUnit XML Results'
+            def testResults = junit testResults: 'cypress/results/**/*.xml'
+
+            def COLOR_MAP = [
+                'SUCCESS'   : '#4CAF50',
+                'FAILURE'   : '#F44336',
+                'UNSTABLE'  : '#FFC107',
+                'ABORTED'   : '#9E9E9E',
+                'NOT_BUILT' : '#2196F3',
+                'UNKNOWN'   : '#CCCCCC'
+            ]
+
+            // Send Slack Notification
+            echo 'Sending Slack Notification'
+            slackSend channel: '#cypress-framework-jenkins',
+                      color: COLOR_MAP[currentBuild.currentResult],
+                      message: "*${currentBuild.currentResult}*\n *Job*: ${env.JOB_NAME} , *Build*: ${env.BUILD_NUMBER}\n *Test Results*: \n\t Total: ${testResults.totalCount} Passed: ${testResults.passCount} Failed: ${testResults.failCount} Skipped: ${testResults.skipCount}\n *Test Run Configuration*:\n\t *Test Script(s)*: ${params.TEST_SPEC}\n\t *Browser*: ${params.BROWSER}  ${params.BROWSER_MODE}\n\t *Tags*: ${params.TAG}\n\t *Environment*: ${params.TEST_ENVIRONMENT}\n\t *Dashboard Recording*: ${params.RECORD_TESTS}\n *Test Report*: ${env.BUILD_URL}Cypress_20Mochawesome_20Report/ \n *More info*: ${env.BUILD_URL}"
         }
     }
+
+    success {
+        echo 'Build Successful'
+    }
+
+    failure {
+        echo 'Build Failed'
+    }
+
+    unstable {
+        echo 'Build unstable'
+    }
+}
+
 }
