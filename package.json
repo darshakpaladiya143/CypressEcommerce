@@ -10,8 +10,6 @@
     "generate:report": "npx marge cypress/results/mochawesome-reporter/merged-report.json -f report -o cypress/results/mochawesome-reporter",
     "report:post": "npm run merge:reports && npm run generate:report",
     "test": "npm run cypress:run && npm run report:post",
-
-    "test:report": "npm run report:pre && npx cypress run && npm run report:post",
     "test:all": "npx cypress run",
     "test:chrome": "npx cypress run --browser chrome",
     "test:firefox": "npx cypress run --browser firefox",
