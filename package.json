@@ -4,7 +4,7 @@
   "description": "cypress test automation framework",
   "main": "index.js",
   "scripts": {
-    "clean:reports": "rmdir /s /q cypress//results//mochawesome-reporter",
+    "clean:reports": "rmdir /s /q cypress/results/mochawesome-reporter",
     "cypress:run": "cypress run",
     "merge:reports": "npx mochawesome-merge cypress/results/mochawesome-reporter/*.json > cypress/results/mochawesome-reporter/merged-report.json",
     "generate:report": "npx marge cypress/results/mochawesome-reporter/merged-report.json -f report -o cypress/results/mochawesome-reporter",
