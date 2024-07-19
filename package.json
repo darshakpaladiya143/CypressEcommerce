@@ -65,6 +65,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "jq": "^1.7.2",
+    "jquery": "^3.7.1",
     "winston": "^2.4.0"
   }
 }
