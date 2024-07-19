@@ -182,6 +182,4 @@ pipeline {
             echo 'Build unstable'
         }
     }
- 
-
 }
