@@ -2,12 +2,9 @@ import BasePage from "../pages/BasePage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import ProductsSearchPage from "../pages/ProductsSearchPage";
 import ShoppingCartPage from "../pages/ShoppingCartPage";
-
 import { PRODUCT_TO_TEST as PRODUCT, PRODUCT_ID_TO_TEST as PRODUCT_ID } from "../config/CONSTANTS";
 
-
 describe("adding products to cart", { tags: ['@Cart', '@regression'] }, () => {
-
     let basePage;
 
     before(() => {
